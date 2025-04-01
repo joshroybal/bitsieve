@@ -25,13 +25,23 @@ void sieve(unsigned *arr, unsigned n)
 
 }
 
-void dump(unsigned *arr, unsigned n)
+void display_primes(unsigned *arr, unsigned n)
 {
-    unsigned i, j, k, x, y;
+    unsigned i, j, k, x, y, w, f;
+    char nstr[10], fmt[10];
 
-    /* print primes */
+    /* determine field width for displaying prime nos. */
+    sprintf(nstr, "%u", n);
+    w = 1 + strlen(nstr);
+    strcpy(fmt, "%");
+    sprintf(nstr, "%u", w);
+    strcat(fmt, nstr);
+    strcat(fmt, "u");
+    /* determine fields per line */
+    f = 80 / w;
+    /* print and count primes */
     k = 0;
-    printf("     2");
+    printf(fmt, 2);
     ++k;
     for (i = 0; i < ceil(n / 64.0); ++i) { /* iterate over at least one word */
         x = 0;
@@ -40,14 +50,36 @@ void dump(unsigned *arr, unsigned n)
             if ((y >> j) & 1) {
                 if (2 * (32 * i + j) + 1 > n)   /* done */
                     break;
-                printf("%6u", 2 * (32 * i + j) + 1);
+                printf(fmt, 2 * (32 * i + j) + 1);
                 ++k;
-                if (k%13 == 0)
+                if (k % f == 0)
                     putchar('\n');
             }
             x <<= 1;
         }
     }
-    putchar('\n');
+    if (k % f != 0)
+        putchar('\n');
     printf("no. of primes = %u\n", k);
+}
+
+unsigned count_primes(unsigned *arr, unsigned n)
+{
+    unsigned i, j, k, x, y;
+
+    /* count primes */
+    k = 1;
+    for (i = 0; i < ceil(n / 64.0); ++i) { /* iterate over at least one word */
+        x = 0;
+        for (j = 0; j < 32; ++j) {
+            y = arr[i] ^ x;
+            if ((y >> j) & 1) {
+                if (2 * (32 * i + j) + 1 > n)   /* done */
+                    break;
+                ++k;
+            }
+            x <<= 1;
+        }
+    }
+    return(k);
 }

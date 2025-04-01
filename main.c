@@ -5,6 +5,7 @@
 
 int main(int argc, char *argv[])
 {
+    const unsigned LIMIT = 1000000;
     unsigned n, siz;
     unsigned *erat = (unsigned *) NULL;
 
@@ -16,10 +17,14 @@ int main(int argc, char *argv[])
     if (n <= 1) /* nothing to do */
         return(0);
     siz = ceil(n / 64.0);   /* allocate at least one word */
+    printf("%u bytes allocated  %u words allocted\n", siz, siz/8);
     erat = (unsigned *) malloc(siz * sizeof(unsigned));
     initialize(erat, siz);
     sieve(erat, siz);
-    dump(erat, n);
+    if (n <= LIMIT)
+        display_primes(erat, n);
+    else 
+        printf("no. of primes = %u\n", count_primes(erat, n));
     free(erat);
     return(0);
 }

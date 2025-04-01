@@ -1,5 +1,5 @@
-CFLAGS = -ansi -pedantic-errors -Wall -Wextra -Werror -g -Og
-LFLAGS = -lm
+CFLAGS = -ansi -pedantic-errors -Wall -Wextra -Werror -O2
+LFLAGS = -lm -static -s
 SRC = $(wildcard *.c)
 OBJ = $(SRC:.c=.o)
 DEP = $(SRC:.c=.d)
