@@ -6,6 +6,5 @@ void sieve(unsigned *, unsigned);
 void oddsieve(unsigned *, unsigned);
 void display_primes(unsigned *, unsigned);
 unsigned count_primes(unsigned *, unsigned);
-void odd_dump(unsigned *, unsigned);
 
 #endif
